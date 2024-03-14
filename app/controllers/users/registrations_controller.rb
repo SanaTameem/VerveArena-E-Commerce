@@ -1,10 +1,9 @@
-# frozen_string_literal: true
-
 class Users::RegistrationsController < Devise::RegistrationsController
   respond_to :json
 
   private
 
+  # rubocop:disable Lint/DuplicateHashKey
   def respond_with(resource, _options = {})
     if resource.persisted?
       render json: {
@@ -14,6 +13,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       render json: {
         status: { message: 'User can not be created!',
                   errors: resource.errors.full_messages }, status: :unprocessable_entity
+        # rubocop:enable Lint/DuplicateHashKey
       }
     end
   end
