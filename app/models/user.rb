@@ -9,4 +9,6 @@ class User < ApplicationRecord
   # def jwt_payload
   #   super
   # end
+  has_many :carts
+  has_many :orders
 end
