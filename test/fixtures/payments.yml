@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  paid_amount: 1
+  payement_date: 2024-03-15
+  order: one
+
+two:
+  paid_amount: 1
+  payement_date: 2024-03-15
+  order: two
