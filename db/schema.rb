@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_15_162657) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_16_150906) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -79,6 +79,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_15_162657) do
     t.string "gender_target"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "rating"
     t.index ["sub_category_id"], name: "index_products_on_sub_category_id"
   end
 
