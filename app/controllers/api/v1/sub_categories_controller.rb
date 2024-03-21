@@ -19,7 +19,7 @@ class Api::V1::SubCategoriesController < ApplicationController
     if @sub_category.save
       render json: @sub_category, status: :created
     else
-      render json: { error: 'Sub category was not saved!' }, status: :unprocessable_entity
+      render json: { errors: @sub_category.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
