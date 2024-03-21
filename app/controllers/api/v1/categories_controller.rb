@@ -19,7 +19,7 @@ class Api::V1::CategoriesController < ApplicationController
     if @category.save
       render json: @category, status: :created
     else
-      render json: { error: 'Category was not saved!' }, status: :unprocessable_entity
+      render json: { errors: @category.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
