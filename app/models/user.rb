@@ -6,10 +6,18 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :jwt_authenticatable, jwt_revocation_strategy: self
 
-  has_many :carts
-  has_many :orders
+  has_one :cart, dependent: :destroy
+  has_many :orders, dependent: :destroy
 
-  validates :username, presence: true
-  validates :role, presence: true
+  validates :username, presence: true, length: { minimum: 3, maximum: 100 }
+  validates :role, presence: true, inclusion: { in: %w[admin user] }
   validates :address, presence: true
+
+  after_create :create_user_cart
+
+  private
+
+  def create_user_cart
+    Cart.create(user: self)
+  end
 end
