@@ -17,7 +17,7 @@ class Api::V1::CartItemsController < ApplicationController
   end
 
   def update
-    if @cart_item.update(params.require(:cart_item).permit(:product_id, :quantity))
+    if @cart_item.update(params.require(:cart_item).permit(:quantity))
       render json: @cart_item, status: :ok
     else
       render json: { errors: @cart_item.errors.full_messages }, status: :unprocessable_entity
@@ -35,7 +35,7 @@ class Api::V1::CartItemsController < ApplicationController
   private
 
   def set_cart
-    @cart = Cart.find(params[:cart_id])
+    @cart = current_user.cart
   end
 
   def set_cart_item
