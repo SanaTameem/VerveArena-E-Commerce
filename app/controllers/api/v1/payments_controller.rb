@@ -10,12 +10,16 @@ class Api::V1::PaymentsController < ApplicationController
   end
 
   def create
-    @payment = Payment.new(paid_amount: @order.total_amount, payment_date: Date.today)
-    @payment.order = @order
-    if @payment.save
-      render json: @payment, status: :created
+    if @order.payment.present?
+      render json: { error: 'Payment has already been made for this order' }, status: :unprocessable_entity
     else
-      render json: { errors: @payment.errors.full_messages }, status: :unprocessable_entity
+      @payment = Payment.new(paid_amount: @order.total_amount, payment_date: Date.today)
+      @payment.order = @order
+      if @payment.save
+        render json: @payment, status: :created
+      else
+        render json: { errors: @payment.errors.full_messages }, status: :unprocessable_entity
+      end
     end
   end
 
