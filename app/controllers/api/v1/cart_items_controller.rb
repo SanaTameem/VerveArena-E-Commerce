@@ -8,11 +8,17 @@ class Api::V1::CartItemsController < ApplicationController
 
   def create
     @product = Product.find(params[:cart_item][:product_id])
-    @cart_item = @cart.cart_items.build(product_id: @product.id, quantity: 1, price: @product.price)
-    if @cart_item.save
-      render json: @cart_item, status: :created
+    @cart_item = @cart.cart_items.find_by(product_id: @product.id)
+    if @cart_item
+      @cart_item.update(quantity: @cart_item.quantity + 1)
+      render json: @cart_item, status: :ok
     else
-      render json: { errors: @cart_item.errors.full_messages }, status: :unprocessable_entity
+      @cart_item = @cart.cart_items.build(product_id: @product.id, quantity: 1, price: @product.price)
+      if @cart_item.save
+        render json: @cart_item, status: :created
+      else
+        render json: { errors: @cart_item.errors.full_messages }, status: :unprocessable_entity
+      end
     end
   end
 
