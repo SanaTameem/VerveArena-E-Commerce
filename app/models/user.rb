@@ -15,8 +15,6 @@ class User < ApplicationRecord
 
   after_create :create_user_cart
 
-
-
   def generate_reset_password_token
     self.reset_password_token = SecureRandom.urlsafe_base64
     self.reset_password_sent_at = Time.now.utc
