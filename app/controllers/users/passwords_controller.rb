@@ -2,6 +2,8 @@ class Users::PasswordsController < ApplicationController
   skip_before_action :authenticate_user!
   respond_to :json
 
+  skip_load_and_authorize_resource
+
   def forgot
     user = User.find_by(email: params[:user][:email])
     if user
