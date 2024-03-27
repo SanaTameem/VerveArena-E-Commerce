@@ -6,7 +6,6 @@ class Payment < ApplicationRecord
   validates :order_id, presence: true
   # validate :check_order_payment, on: :create
 
-
   # def check_order_payment
   #   return unless order && order.payment.present?
 
