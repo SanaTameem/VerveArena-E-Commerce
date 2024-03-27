@@ -1,8 +1,8 @@
 class Api::V1::OrdersController < ApplicationController
-  before_action :set_user, only: %i[index create]
+  # before_action :set_user, only: %i[index create]
   before_action :set_order, only: %i[show update destroy]
   def index
-    @orders = @user.orders
+    @orders = current_user.orders
     render json: @orders
   end
 
@@ -15,13 +15,13 @@ class Api::V1::OrdersController < ApplicationController
   end
 
   def create
-    @cart = Cart.find_by(user_id: params[:user_id])
+    @cart = Cart.find_by(user_id: current_user.id)
     if @cart.nil?
       render json: { error: 'Cart was not found!' }, status: :not_found
       return
     end
-    @order = @user.orders.build(order_date: Date.today, status: 'pending',
-                                total_amount: calculate_total_amount(@cart.cart_items))
+    @order = current_user.orders.build(order_date: Date.today, status: 'pending',
+                                       total_amount: calculate_total_amount(@cart.cart_items))
     if @order.save
       render json: @order, status: :created
     else
@@ -30,7 +30,7 @@ class Api::V1::OrdersController < ApplicationController
   end
 
   def update
-    if @order.update(order_params)
+    if @order.update(status: params[:order][:status])
       render json: @order, status: :ok
     else
       render json: { errors: @order.errors.full_messages }, status: :unprocessable_entity
@@ -47,17 +47,17 @@ class Api::V1::OrdersController < ApplicationController
 
   private
 
-  def set_user
-    @user = User.find(params[:user_id])
-  end
+  # def set_user
+  #   @user = User.find(params[:user_id])
+  # end
 
   def set_order
     @order = Order.find(params[:id])
   end
 
-  def order_params
-    params.require(:order).permit(:status)
-  end
+  # def order_params
+  #   params.require(:order).permit(:status)
+  # end
 
   def calculate_total_amount(items)
     total_amount = 0

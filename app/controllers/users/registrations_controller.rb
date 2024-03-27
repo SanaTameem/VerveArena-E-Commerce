@@ -1,6 +1,8 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   respond_to :json
 
+  skip_load_and_authorize_resource
+
   private
 
   # rubocop:disable Lint/DuplicateHashKey
