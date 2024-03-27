@@ -1,6 +1,8 @@
 class Users::SessionsController < Devise::SessionsController
   respond_to :json
 
+  skip_load_and_authorize_resource
+
   private
 
   def respond_with(_resource, _options = {})
